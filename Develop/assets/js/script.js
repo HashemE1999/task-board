@@ -26,12 +26,36 @@ function createTaskCard(task) {
 
 // Todo: create a function to render the task list and make cards draggable
 function renderTaskList() {
-
+    // Clear the existing task list
+    $('#task-list').empty();
+    // Loop through each task and create a card
+    tasks.forEach(task => {
+        const taskCard = $(`
+            <div class="task-card" data-id="${task.id}">
+                <h3>${task.title}</h3>
+                <p>${task.description}</p>
+                <p>Due Date: ${task.dueDate}</p>
+                <button class="delete-btn">Delete</button>
+            </div>
+        `);
+        // Make the task card draggable
+        taskCard.draggable({
+            revert: "invalid", // Return to original position if not dropped in a valid target
+            start: function() {
+                $(this).addClass('dragging'); // Optional: Add a class for styling
+            },
+            stop: function() {
+                $(this).removeClass('dragging'); // Optional: Remove the class
+            }
+        });
+        // Append the task card to the task list
+        $('#task-list').append(taskCard);
+    });
 }
 
 // Todo: create a function to handle adding a new task
 function handleAddTask(event){
-
+    
 }
 
 // Todo: create a function to handle deleting a task
