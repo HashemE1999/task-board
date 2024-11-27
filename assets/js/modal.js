@@ -26,6 +26,14 @@ $(document).ready(function() {
         var dueDate = $('#dueDate').val();
 
         // Here you would typically save the task to local storage or your data structure
+        // Get existing tasks from local storage
+    const tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+
+    // Add the new task to the tasks array
+    tasks.push(task);
+
+    // Save the updated tasks array back to local storage
+    localStorage.setItem('tasks', JSON.stringify(tasks));
 
         // Close the modal
         $('#taskModal').css('display', 'none');
