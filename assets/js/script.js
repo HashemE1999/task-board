@@ -1,5 +1,4 @@
 // Retrieve tasks and nextId from localStorage
-let taskList = JSON.parse(localStorage.getItem("tasks"));
 let nextId = JSON.parse(localStorage.getItem("nextId"));
 let tasks = [];
 
@@ -62,27 +61,43 @@ function handleAddTask(event){
             const taskName = $('#taskName').val();
             const taskDescription = $('#taskDescription').val();
             const taskDueDate = $('#taskDueDate').val();
-    
+
+            console.log(taskName);
+            let taskList = JSON.parse(localStorage.getItem("tasks")) || [];
+
             // Check if the task name is not empty
             if (taskName) {
                 // Create a new task object
                 const newTask = {
                     name: taskName,
                     description: taskDescription,
+                    status: 'To Do',
                     dueDate: dayjs(taskDueDate).format('YYYY-MM-DD'), // Format the date using Day.js
                     completed: false
                 };
     
                 // Add the new task to the task list (you may need an array to store tasks)
-                tasks.push(newTask); // Assuming `tasks` is your array of tasks
+                taskList.push(newTask); // Assuming `tasks` is your array of tasks
+                localStorage.setItem("tasks", JSON.stringify(taskList))
+                // let localStorageData = JSON.parse()
     
                 // Update the UI to display the new task
-                $('#taskList').append(`
-                    <li>
-                        ${newTask.name} - Due: ${newTask.dueDate}
-                        <button class="completeTask">Complete</button>
-                    </li>
-                `);
+                for (let i = 0; i < taskList.length; i++) {
+                    console.log(taskList[i]);
+                    $('#todo-cards').append(`
+                         <li>
+                            ${taskList[i].name} - Due: ${taskList[i].dueDate}
+                            <button class="completeTask">Complete</button>
+                        </li>    
+                    `)
+
+                }
+                // $('#taskList').append(`
+                //     <li>
+                //         ${newTask.name} - Due: ${newTask.dueDate}
+                //         <button class="completeTask">Complete</button>
+                //     </li>
+                // `);
     
                 // Clear the input fields
                 $('#taskName').val('');
