@@ -1,6 +1,7 @@
 // Retrieve tasks and nextId from localStorage
 let taskList = JSON.parse(localStorage.getItem("tasks"));
 let nextId = JSON.parse(localStorage.getItem("nextId"));
+let tasks = [];
 
 // Todo: create a function to generate a unique task id
 function generateTaskId() {
@@ -16,7 +17,7 @@ function createTaskCard(task) {
     const taskTitle = $('<h3></h3>').text(task.title);
     const taskDescription = $('<p></p>').text(task.description);
     // Create an element for the due date using Day.js
-    const dueDate = $('<p></p>').text(`Due: ${dayjs(task.dueDate).format('MMMM D, YYYY')}`);
+    const dueDate = $('<p></p>').text(`Due: ${dayjs(task.dueDate).format('MM, DD, YYYY')}`);
     // Append the title, description, and due date to the task card
     taskCard.append(taskTitle, taskDescription, dueDate);
     // Append the task card to the task board (assuming you have a container with the ID 'task-board')
@@ -48,7 +49,7 @@ function renderTaskList() {
             }
         });
         // Append the task card to the task list
-        $('#task-list').append(taskCard);
+        $('#todo-cards').append(taskCard);
     });
 }
 
@@ -59,6 +60,7 @@ function handleAddTask(event){
         function addTask() {
             // Get the task details from input fields
             const taskName = $('#taskName').val();
+            const taskDescription = $('#taskDescription').val();
             const taskDueDate = $('#taskDueDate').val();
     
             // Check if the task name is not empty
@@ -66,6 +68,7 @@ function handleAddTask(event){
                 // Create a new task object
                 const newTask = {
                     name: taskName,
+                    description: taskDescription,
                     dueDate: dayjs(taskDueDate).format('YYYY-MM-DD'), // Format the date using Day.js
                     completed: false
                 };
@@ -83,9 +86,10 @@ function handleAddTask(event){
     
                 // Clear the input fields
                 $('#taskName').val('');
+                $('#taskDescription').val('');
                 $('#taskDueDate').val('');
             } else {
-                alert('Please enter a task name.');
+                alert('Please complete all input fields.');
             }
         }
     
@@ -187,7 +191,7 @@ function handleDrop(event, ui) {
 // Todo: when the page loads, render the task list, add event listeners, make lanes droppable, and make the due date field a date picker
 $(document).ready(function () {
 // Handle form submission
-    $('#taskModal').submit(function(event) {
+    $('#addTaskButton').click(function(event) {
         event.preventDefault(); // Prevent the default form submission
 
         handleAddTask();
