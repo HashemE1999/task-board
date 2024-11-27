@@ -186,5 +186,11 @@ function handleDrop(event, ui) {
 
 // Todo: when the page loads, render the task list, add event listeners, make lanes droppable, and make the due date field a date picker
 $(document).ready(function () {
+// Handle form submission
+    $('#taskModal').submit(function(event) {
+        event.preventDefault(); // Prevent the default form submission
 
-});
+        handleAddTask();
+        })
+    }
+);
